@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div#game-canvas {
+	width: 250px;
+	height: 300px;
+	margin: 0 auto;
+	border: 1px solid #ccc;
+	position: relative;
+}
+div#msg-box {
+	width: 250px;
+	height: 300px;
+	position: absolute;
+	background: #fff;
+	z-index: 999;
+	opacity: 0.5;
+	display: none;
+}
+div#msg {
+	width: 250px;
+	height: 300px;
+	position: absolute;
+	z-index: 9999;
+	display: none;
+	text-align: center;
+	font-size: 16px;
+}
+div#ttt {
+	width: 246px;
+	height: 246px;
+	position: absolute;
+	left: 2px;
+	bottom: 2px;
+	z-index: 0;
+}
+div.tile {
+	position: absolute;
+	width: 82px;
+	height: 82px;
+	z-index: 0;
+}
+div.tile img {
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+</style>
+</head>
+
+<body>
+<div id="game-canvas">
+<div id="ttt"></div>
+<div id="msg-box"></div>
+<div id="msg">Congratulations!<br><span id='win'></span><br>wins!</div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+<script>
+var _map = [];
+var _turn = 1;
+
+function tile() {
+	this.type = 0;
+	this.link = false;
+	this.elem = null;
+}
+
+for (var i = 0; i < 3; i++)
+{
+	_map[i] = [];
+	for (var j = 0; j < 3; j++)
+	{
+		var _elem = $('<div class="tile"></div>')
+						.appendTo( "div#ttt" )
+						.css({top: i*82+'px', left: j*82+'px'});
+		_elem.click(
+			function(e) {
+				var ii, jj;
+				for (ii = 0; ii < 3; ii++)
+				{
+					for (jj = 0; jj < 3; jj++)
+						if (_map[ii][jj].elem.is($(e.currentTarget)))
+						{
+							break;
+						}
+					if (jj < 3) break;
+				}
+				if (_turn === 1) {
+					_map[ii][jj].elem.html('<img src = "images/circle.png"></img>');
+					_map[ii][jj].elem.unbind();
+					_map[ii][jj].type = _turn;
+					_turn = 2;
+				} else if (_turn === 2) {
+					_map[ii][jj].elem.html('<img src = "images/cross.png"></img>');
+					_map[ii][jj].elem.unbind();
+					_map[ii][jj].type = _turn;
+					_turn = 1;
+				}
+				if (checkLink())
+				{
+					if (_turn === 1)
+						$('#win').html('<img src = "images/cross.png"></img>');
+					else if (_turn === 2)
+						$('#win').html('<img src = "images/circle.png"></img>');
+					$('div#msg-box').toggle();
+					$('div#msg').toggle();
+				}
+			}
+		);
+		var _tile = new tile();
+		_tile.elem = _elem;
+		_map[i].push(_tile);
+	}
+}
+
+function checkLink() {
+	var _link = false;
+	
+	for (var i = 0; i < 3; i++)
+	{
+		if (_map[i][0].type != 0 && _map[i][0].type===_map[i][1].type && _map[i][0].type===_map[i][2].type)
+		{
+			_map[i][0].link = true;
+			_map[i][1].link = true;
+			_map[i][2].link = true;
+			_link = true;
+		}		
+	}
+	
+	for (var j = 0; j < 3; j++)
+	{
+		if (_map[0][j].type != 0 && _map[0][j].type===_map[1][j].type && _map[0][j].type===_map[2][j].type)
+		{
+			_map[0][j].link = true;
+			_map[1][j].link = true;
+			_map[2][j].link = true;
+			_link = true;
+		}
+	}
+	
+	if (_map[0][0].type != 0 && _map[0][0].type===_map[1][1].type && _map[0][0].type===_map[2][2].type)
+	{
+		_map[0][0].link = true;
+		_map[1][1].link = true;
+		_map[2][2].link = true;
+		_link = true;
+	}
+	
+	if (_map[2][0].type != 0 && _map[2][0].type===_map[1][1].type && _map[2][0].type===_map[2][0].type)
+	{
+		_map[2][0].link = true;
+		_map[1][1].link = true;
+		_map[2][0].link = true;
+		_link = true;
+	}
+	
+	return _link;
+}
+
+</script>
+
+</body>
+
+
+</html>
