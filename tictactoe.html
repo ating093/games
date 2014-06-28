@@ -2,6 +2,9 @@
 <html>
 <head>
 <style>
+div#container {
+	padding-top: 10px;
+}
 div#game-canvas {
 	width: 250px;
 	height: 300px;
@@ -50,12 +53,13 @@ div.tile img {
 </head>
 
 <body>
+<div id="container">
 <div id="game-canvas">
 <div id="ttt"></div>
 <div id="msg-box"></div>
 <div id="msg">Congratulations!<br><span id='win'></span><br>wins!</div>
 </div>
-
+</div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 <script>
 var _map = [];
