@@ -24,12 +24,11 @@ div#msg-box {
 	background: #fff;
 	border-radius: 10px;
 	z-index: 999;
-	opacity: 0.8;
+	opacity: 0.9;
 	display: none;
 }
-div#msg {
+div#msg-win {
 	width: 250px;
-	height: 300px;
 	position: absolute;
 	z-index: 9999;
 	display: none;
@@ -37,6 +36,20 @@ div#msg {
 	font-size: 28px;
 	font-family: 'century';
 	font-weight: bold;
+	top: 50%;
+	margin-top: -86px;
+}
+div#msg-nowin {
+	width: 250px;
+	position: absolute;
+	z-index: 9999;
+	display: none;
+	text-align: center;
+	font-size: 28px;
+	font-family: 'century';
+	font-weight: bold;
+	top: 50%;
+	margin-top: -16.5px;
 }
 div#top {
 	width: 246px;
@@ -72,7 +85,8 @@ div.tile img {
 <div id="top"></div>
 <div id="ttt"></div>
 <div id="msg-box"></div>
-<div id="msg">Congratulations!<br><span id='win'></span><br>wins!</div>
+<div id="msg-win">Congratulations!<br><span id='win'></span><br>wins!</div>
+<div id="msg-nowin">Tie!</div>
 </div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
@@ -124,7 +138,11 @@ for (var i = 0; i < 3; i++)
 					else if (_turn === 2)
 						$('#win').html('<img src = "images/circle.png"></img>');
 					$('div#msg-box').toggle();
-					$('div#msg').toggle();
+					$('div#msg-win').toggle();
+				} else if (checkFull())
+				{
+					$('div#msg-box').toggle();
+					$('div#msg-nowin').toggle();
 				}
 			}
 		);
@@ -167,15 +185,25 @@ function checkLink() {
 		_link = true;
 	}
 	
-	if (_map[2][0].type != 0 && _map[2][0].type===_map[1][1].type && _map[2][0].type===_map[2][0].type)
+	if (_map[0][2].type != 0 && _map[0][2].type===_map[1][1].type && _map[0][2].type===_map[2][0].type)
 	{
-		_map[2][0].link = true;
+		_map[0][2].link = true;
 		_map[1][1].link = true;
 		_map[2][0].link = true;
 		_link = true;
 	}
 	
 	return _link;
+}
+
+function checkFull() {	
+	for (var i = 0; i < 3; i++)
+		for (var j = 0; j < 3; j++)
+			if (_map[i][j].type == 0)
+			{
+				return false;
+			}
+	return true;
 }
 
 </script>
