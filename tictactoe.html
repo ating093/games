@@ -23,7 +23,7 @@ div#msg-box {
 	position: absolute;
 	background: #fff;
 	z-index: 999;
-	opacity: 0.5;
+	opacity: 0.8;
 	display: none;
 }
 div#msg {
@@ -33,7 +33,10 @@ div#msg {
 	z-index: 9999;
 	display: none;
 	text-align: center;
-	font-size: 16px;
+	font-size: 28px;
+	font-family: 'century';
+	font-weight: bold;
+	margin: auto 0;
 }
 div#top {
 	width: 246px;
@@ -68,8 +71,9 @@ div.tile img {
 <div id="game-canvas">
 <div id="top"></div>
 <div id="ttt"></div>
-<div id="msg-box"></div>
+<div id="msg-box">
 <div id="msg">Congratulations!<br><span id='win'></span><br>wins!</div>
+</div>
 </div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
