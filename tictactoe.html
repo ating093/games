@@ -4,13 +4,16 @@
 <style>
 div#container {
 	padding-top: 10px;
+	background: #00D3EB;
 }
 div#game-canvas {
 	width: 250px;
 	height: 300px;
 	margin: 0 auto;
 	border: 1px solid #ccc;
+	border-radius: 5px;
 	position: relative;
+	background: #fff;
 }
 div#msg-box {
 	width: 250px;
@@ -29,6 +32,12 @@ div#msg {
 	display: none;
 	text-align: center;
 	font-size: 16px;
+}
+div#top {
+	width: 246px;
+	top: 2px;
+	bottom: 250px;
+	background: #ccc;
 }
 div#ttt {
 	width: 246px;
@@ -55,6 +64,7 @@ div.tile img {
 <body>
 <div id="container">
 <div id="game-canvas">
+<div id="top"></div>
 <div id="ttt"></div>
 <div id="msg-box"></div>
 <div id="msg">Congratulations!<br><span id='win'></span><br>wins!</div>
