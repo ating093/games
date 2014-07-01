@@ -159,7 +159,6 @@ ConnectFour.prototype.round = function () {
 		}, function(e) { $(e.currentTarget).empty(); } );
 		drop.click( function(e) {
 			if (_canDrop === false) return;
-
 			var col = ConnectFour.prototype.player[ConnectFour.prototype.turn].nextColumn($(e.currentTarget).attr('id'));
 			if (col !== null)
 			{
@@ -174,9 +173,7 @@ ConnectFour.prototype.round = function () {
 	}
 
 	ConnectFour.prototype.turn = 1;
-	console.log(ConnectFour.prototype.player[1], ConnectFour.prototype.player[2]);
-	
-	
+	ConnectFour.prototype.player[ConnectFour.prototype.turn].activate();
 }
 
 ConnectFour.prototype.drop = function (col) {
@@ -200,6 +197,7 @@ ConnectFour.prototype.chkConnect = function (col) {
 	if (boardFull()) ConnectFour.prototype.end();
 	ConnectFour.prototype.turn = (ConnectFour.prototype.turn%2)+1;
 	_canDrop = true;
+	ConnectFour.prototype.player[ConnectFour.prototype.turn].activate();
 }
 
 ConnectFour.prototype.end = function () {
@@ -224,11 +222,13 @@ function Cell(turn, disc) {
 
 function Player(player) {
 	this.player = player;
+	this.activate = function () {};
 	this.nextColumn = function () {	};
 }
 
 function Human(player) {
 	Player.call(this, player);
+	this.activate = function () {};
 	this.nextColumn = function (col) {
 		if (colFull(col)) return null;
 		else return col;
@@ -237,8 +237,22 @@ function Human(player) {
 
 function Computer(player) {
 	Player.call(this, player);
+	this.activate = function () {
+		this.nextColumn();
+	}
 	this.nextColumn = function () {
-	
+		var col;
+		do {
+			col = Math.floor(Math.random() * 6) + 1;
+			console.log(col);
+		} while (colFull(col));
+		var html = '<div class="disc"><img src="images/c4_'+ConnectFour.prototype.turn+'.png"></div>';
+		$('div.droparea#'+col).html(html);
+		var time = ConnectFour.prototype.drop(col);
+		if (time > 0)
+		{
+			_delay = window.setTimeout( ConnectFour.prototype.chkConnect, time, col);
+		}
 	}
 }
 
