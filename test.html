@@ -66,25 +66,12 @@
       acc[0] = temp.x;
       acc[1] = temp.y;
       acc[2] = temp.z;
+      $('#yes').append(JSON.stringify(acc));
     };
 
     shakingId = setInterval(detectShaking, DELAY);
 
     timerId = setInterval(oneSecond, 1000);
-  // });
-
-  // $('#btnReplay').on('click', function() {
-  //  count = 0;
-  //  score = 0;
-  //  timer = GAMETIME;
-  //  divTimer.html(timer);
-  //  divBar.height('0%');
-
-  //  preValue = [null, null, null];
-  //  acc = [0, 0, 0];
-
-  //  divResult.addClass('invsibleDiv');
-  //  divStart.removeClass('invsibleDiv');
   // });
 
   function oneSecond() {
@@ -105,30 +92,9 @@
 
     if (err === 0) {
       alert('end');
-      // gateWay.updateScore(score, function( response ) {
-      //   response = response.toString();
-      //   if (response.indexOf("Error") != -1) {
-      //             alert("Error occurred.");
-      //         }
-      //   else if (response.indexOf("Not in campaign period") != -1) {
-      //             alert("遊戲已完結，多謝參與！");
-      //         }
-      //         else if (response.indexOf("No user") != -1) {
-      //             alert("仲未有你嘅紀錄喎！即刻搵埋朋友Join啦！");
-      //             self.location = root;
-      //         }
-      //         else {
-      //           //divResult.removeClass('invsibleDiv');
-      //           // divHighest.html('Highest: $' + response);
-      //           //divScore.html(score);
-      //           //self.location = root + "result.php";
-      //         }
-      // });
     }
     else if (err === -1) {
       alert('此瀏覽器不支援加速度感測。');
-      //divResult.removeClass('invsibleDiv');
-          //divScore.html(0);
     }
   }
 
