@@ -175,7 +175,7 @@
     for (var i = 0; i < 3; i++) {
       var pv = preValue[i];
       var v = acc[i];
-      //console.log(getTime()+'-----'+pv+'-----'+v);
+      console.log(getTime()+'-----'+pv+'-----'+v);
       if (pv <= 0 && v > 0 || pv > 0 && v <= 0) {
         // acceleration direction changed
         var delta = Math.abs(v - pv);
