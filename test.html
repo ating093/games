@@ -71,12 +71,13 @@
     //alert('start');
     window.ondevicemotion = function( event ) {
       var temp = event.acceleration;
-      withGravity = (temp.x === null);
+      withGravity = (temp === null || temp.x === null);
       if (withGravity) {
         temp = event.accelerationIncludingGravity;
       }
-      if (temp.x === null) {
+      if (temp === null || temp.x === null) {
         //endGame(-1);
+        alert('end');
       }
       else {
         acc[0] = temp.x;
