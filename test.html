@@ -20,7 +20,21 @@
   } 
   </style> 
 
-  <script>
+  
+</head> 
+ 
+<body> 
+  <div id="content">
+      <div id="yes" style="margin-top:40px; height: 200px; overflow: auto;">
+        <div id="chok" style="font-size:50px;">0</div>
+        <p>x: <span id="valueX">0</span></p>
+        <p>y: <span id="valueY">0</span></p>
+        <p>z: <span id="valueZ">0</span></p>
+      </div>
+  </div>
+
+
+<script>
  // (function() {
   var start = false,
     GAMETIME = 10,
@@ -47,7 +61,7 @@
   // });
 
   if (typeof(window.DeviceMotionEvent) === "undefined") {
-      endGame(-1);
+      //endGame(-1);
   }
   else {
 
@@ -62,16 +76,16 @@
         temp = event.accelerationIncludingGravity;
       }
       if (temp.x === null) {
-        endGame(-1);
+        //endGame(-1);
       }
       else {
-      acc[0] = temp.x;
-      acc[1] = temp.y;
-      acc[2] = temp.z;
-      document.getElementById("valueX").innerHTML = temp.x+'';
-    document.getElementById("valueY").innerHTML = temp.y+'';
-    document.getElementById("valueZ").innerHTML = temp.z+'';
-}
+        acc[0] = temp.x;
+        acc[1] = temp.y;
+        acc[2] = temp.z;
+        document.getElementById("valueX").innerHTML = temp.x+'';
+        document.getElementById("valueY").innerHTML = temp.y+'';
+        document.getElementById("valueZ").innerHTML = temp.z+'';
+      }
     };
 
     //shakingId = setInterval(detectShaking, DELAY);
@@ -80,131 +94,120 @@
   // });
   }
 
-  function oneSecond() {
-    if (start) {
-      timer--;
-      //divTimer.html(timer);
-      if (timer <= 0) {
-        endGame(0);
-      }
-    }
-  }
+  // function oneSecond() {
+  //   if (start) {
+  //     timer--;
+  //     //divTimer.html(timer);
+  //     if (timer <= 0) {
+  //       endGame(0);
+  //     }
+  //   }
+  // }
 
-  function endGame( err ) {
-    start = false;
-    window.ondevicemotion = null;
-    window.clearInterval(detectShaking);
-    window.clearInterval(timerId);
+  // function endGame( err ) {
+  //   start = false;
+  //   window.ondevicemotion = null;
+  //   window.clearInterval(detectShaking);
+  //   window.clearInterval(timerId);
 
-    if (err === 0) {
-      alert('end');
-    }
-    else if (err === -1) {
-      alert('此瀏覽器不支援加速度感測。');
-    }
-  }
+  //   if (err === 0) {
+  //     alert('end');
+  //   }
+  //   else if (err === -1) {
+  //     alert('此瀏覽器不支援加速度感測。');
+  //   }
+  // }
 
-  function updateScore() {
-    if (!start) return;
+  // function updateScore() {
+  //   if (!start) return;
 
-    var level = count * MULTIPLIER;
+  //   var level = count * MULTIPLIER;
 
-    if (level >= 100) {
-      score = 50;
-    }
-    else if (level >= 80) {
-      score = 40;
-    }
-    else if (level >= 60) {
-      score = 30;
-    }
-    else if (level >= 40) {
-      score = 20;
-    }
-    else if (level >= 20) {
-      score = 10;
-    }
-  }
+  //   if (level >= 100) {
+  //     score = 50;
+  //   }
+  //   else if (level >= 80) {
+  //     score = 40;
+  //   }
+  //   else if (level >= 60) {
+  //     score = 30;
+  //   }
+  //   else if (level >= 40) {
+  //     score = 20;
+  //   }
+  //   else if (level >= 20) {
+  //     score = 10;
+  //   }
+  // }
 
-  function updateLv() {
-    if (!start) return;
+  // function updateLv() {
+  //   if (!start) return;
 
-    var level = count * MULTIPLIER;
-    $('#chok').html(count);
-    //divBar.height(level + '%');
+  //   var level = count * MULTIPLIER;
+  //   $('#chok').html(count);
+  //   //divBar.height(level + '%');
 
-    updateScore();
-  }
+  //   updateScore();
+  // }
 
-  function getTime() {
-    return (new Date()).getTime();
-  }
+  // function getTime() {
+  //   return (new Date()).getTime();
+  // }
 
-  function detectShaking() {
-    if (!start) return;
+  // function detectShaking() {
+  //   if (!start) return;
 
-    if (preValue[0] === null) {
-      preValue[0] = acc[0];
-      preValue[1] = acc[1];
-      preValue[2] = acc[2];
+  //   if (preValue[0] === null) {
+  //     preValue[0] = acc[0];
+  //     preValue[1] = acc[1];
+  //     preValue[2] = acc[2];
 
-      return;
-    }
+  //     return;
+  //   }
 
-    if (cooldown > 0) {
-      cooldown--;
+  //   if (cooldown > 0) {
+  //     cooldown--;
 
-      preValue[0] = getMostNegOrPos(preValue[0], acc[0]);
-      preValue[1] = getMostNegOrPos(preValue[1], acc[1]);
-      preValue[2] = getMostNegOrPos(preValue[2], acc[2]);
-      return; // cooldown
-    }
+  //     preValue[0] = getMostNegOrPos(preValue[0], acc[0]);
+  //     preValue[1] = getMostNegOrPos(preValue[1], acc[1]);
+  //     preValue[2] = getMostNegOrPos(preValue[2], acc[2]);
+  //     return; // cooldown
+  //   }
 
-    for (var i = 0; i < 3; i++) {
-      var pv = preValue[i];
-      var v = acc[i];
-      //console.log(getTime()+'-----'+pv+'-----'+v);
-      if (pv <= 0 && v > 0 || pv > 0 && v <= 0) {
-        // acceleration direction changed
-        var delta = Math.abs(v - pv);
-        if (delta >= 3) {
-          cooldown = 1;
-          count++;
-          updateLv();
-          break;
-        }
-      }
-    }
+  //   for (var i = 0; i < 3; i++) {
+  //     var pv = preValue[i];
+  //     var v = acc[i];
+  //     //console.log(getTime()+'-----'+pv+'-----'+v);
+  //     if (pv <= 0 && v > 0 || pv > 0 && v <= 0) {
+  //       // acceleration direction changed
+  //       var delta = Math.abs(v - pv);
+  //       if (delta >= 3) {
+  //         cooldown = 1;
+  //         count++;
+  //         updateLv();
+  //         break;
+  //       }
+  //     }
+  //   }
 
-    preValue[0] = acc[0];
-    preValue[1] = acc[1];
-    preValue[2] = acc[2];
-  }
+  //   preValue[0] = acc[0];
+  //   preValue[1] = acc[1];
+  //   preValue[2] = acc[2];
+  // }
 
-  function getMostNegOrPos(prev, curr) {
-    if (prev < 0 && curr < 0) {
-    return Math.min(prev, curr);
-    }
+  // function getMostNegOrPos(prev, curr) {
+  //   if (prev < 0 && curr < 0) {
+  //   return Math.min(prev, curr);
+  //   }
 
-    if (prev > 0 && curr > 0) {
-    return Math.max(prev, curr);
-    }
+  //   if (prev > 0 && curr > 0) {
+  //   return Math.max(prev, curr);
+  //   }
 
-    return prev;
-  }
+  //   return prev;
+  // }
 // })();
 </script> 
 
-</head> 
- 
-<body> 
-  <div id="content">
-      <div id="yes" style="margin-top:40px; height: 200px; overflow: auto;">
-        <div id="chok" style="font-size:50px;">0</div>
-        <p>x: <span id="valueX">0</span></p>
-        <p>y: <span id="valueY">0</span></p>
-        <p>z: <span id="valueZ">0</span></p>
-      </div>
-  </div> 
 </body> 
 </html> 
