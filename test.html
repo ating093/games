@@ -45,7 +45,7 @@
           spanY = $('#valueY'),
           spanZ = $('#valueZ');
     	window.ondevicemotion = function(event) {
-    	  var tempAg = event.acceleration;
+    	  var tempAg = event.accelerationIncludingGravity;
     		ag[0] = tempAg.x;
         ag[1] = tempAg.y;
         ag[2] = tempAg.z;
