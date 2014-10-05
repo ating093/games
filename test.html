@@ -48,7 +48,8 @@
 
   if (typeof(window.DeviceMotionEvent) === "undefined") {
       endGame(-1);
-    }
+  }
+  else {
 
   // $('#yes').on('click', function() {
     start = true;
@@ -63,19 +64,21 @@
       if (temp.x === null) {
         endGame(-1);
       }
+      else {
       acc[0] = temp.x;
       acc[1] = temp.y;
       acc[2] = temp.z;
-      document.getElementById("valueX").innerHTML = event.accelerationIncludingGravity.x;
-    document.getElementById("valueY").innerHTML = event.accelerationIncludingGravity.y;
-    document.getElementById("valueZ").innerHTML = event.accelerationIncludingGravity.z;
-
+      document.getElementById("valueX").innerHTML = temp.x+'';
+    document.getElementById("valueY").innerHTML = temp.y+'';
+    document.getElementById("valueZ").innerHTML = temp.z+'';
+}
     };
 
     //shakingId = setInterval(detectShaking, DELAY);
 
     //timerId = setInterval(oneSecond, 1000);
   // });
+  }
 
   function oneSecond() {
     if (start) {
