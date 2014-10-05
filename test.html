@@ -1,0 +1,134 @@
+
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>Mobile Safari HTML5 Accelerometer Test</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+  <meta name="viewport" content="width=device-width,user-scalable=no" /> 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <style> 
+ 
+  #no {
+  	display: none;	
+  }
+  
+  body { 
+        -moz-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -o-user-select: none; 
+  } 
+  </style> 
+
+  <script>
+  document.ontouchmove = function(event){
+    event.preventDefault();
+  }
+  function getTime() {
+    return (new Date()).getTime();
+  }
+
+  function updateMark() {
+    chok.innerHTML = count + '';
+  }
+
+  // setInterval(function() {
+  //   alert("end");
+  // }, 30000);
+  window.onload = function() {
+    if (typeof window.DeviceMotionEvent == "undefined") {
+    	$("#no").show();
+    	$("#yes").hide();
+     
+    } else {
+      var spanX = $('#valueX'),
+          spanY = $('#valueY'),
+          spanZ = $('#valueZ');
+    	window.ondevicemotion = function(event) {
+    	  var tempAg = event.acceleration;
+    		ag[0] = tempAg.x;
+        ag[1] = tempAg.y;
+        ag[2] = tempAg.z;
+        $('#yes').append(ag[0] + ', ' + ag[1] + ', ' + ag[2]);
+    	}
+      
+      isLose = false;
+      var cooldown = 0;
+      var pValue = [null, null, null];  // previous value
+      var ag = [0, 0, 0]
+      var DELAY = 300;
+      var status = 1;
+      var abs = Math.abs;
+      var chok = $('#chok')[0];
+      count = 0;
+    	setInterval(function() {
+        function getMostNegOrPos(prev, curr) {
+          if (prev < 0 && curr < 0) {
+            return Math.min(prev, curr);
+          }
+
+          if (prev > 0 && curr > 0) {
+            return Math.max(prev, curr);
+          }
+
+          return prev;
+        }
+
+        if (isLose) return;
+
+        if (pValue[0] === null) {
+          pValue[0] = ag[0];
+          pValue[1] = ag[1];
+          pValue[2] = ag[2];
+
+          return;
+        }
+
+        if (cooldown > 0) {
+          cooldown--;
+          
+          pValue[0] = getMostNegOrPos(pValue[0], ag[0]);
+          pValue[1] = getMostNegOrPos(pValue[1], ag[1]);
+          pValue[2] = getMostNegOrPos(pValue[2], ag[2]);
+          return; // cooldown
+        }
+
+        for (var i = 0; i < 3; i++) {
+          var pv = pValue[i];
+          var v = ag[i];
+          if (pv <= 0 && v > 0 || pv > 0 && v <= 0) {
+          // acceleration direction changed
+            var dy = abs(v - pv);
+            if (dy >= 3) {
+              cooldown = 1;
+              count++;
+              //console.log(getTime()+'-----'+pv+'-----'+v);
+              updateMark();
+              break;
+            }
+          }
+        }
+        pValue[0] = ag[0];
+        pValue[1] = ag[1];
+        pValue[2] = ag[2];
+    	}, DELAY);
+    } 
+  };
+  </script> 
+
+</head> 
+ 
+<body> 
+  <div id="content">
+      <div id="yes" style="margin-top:40px;">
+        <div id="chok" style="font-size:50px;">0</div>
+        <p>x: <span id="valueX">0</span></p>
+        <p>y: <span id="valueY">0</span></p>
+        <p>z: <span id="valueZ">0</span></p>
+      </div>
+      <div id="no"> 
+      Your browser does not support Device Orientation and Motion API. Try this sample with iPhone, iPod or iPad with iOS 4.2+.    
+      </div> 
+  </div> 
+</body> 
+</html> 
