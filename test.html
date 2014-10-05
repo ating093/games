@@ -36,11 +36,13 @@
 
 <script>
  // (function() {
-  var start = false,
-    GAMETIME = 5,
-    timer = GAMETIME,
-    DELAY = 50,
+  var GAMETIME = 5,
+    DELAY = 80,
     MULTIPLIER = 2,
+    COOLDOWN = 1,
+    BOUND = 3,
+    start = false,
+    timer = GAMETIME,
     shakingId = 0,
     timerId = 0,
     count = 0,
@@ -179,9 +181,9 @@
       if (pv <= -1 && v > 1 || pv > 1 && v <= -1) {
         // acceleration direction changed
         var delta = Math.abs(v - pv);
-        console.log(getTime()+'-----'+pv+'-----'+v);
-        if (delta >= 3) {
-          cooldown = 1;
+        if (delta >= BOUND) {
+          console.log(getTime()+'***'+pv+'***'+v);
+          cooldown = COOLDOWN;
           count++;
           updateLv();
           break;
