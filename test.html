@@ -50,10 +50,10 @@
       endGame(-1);
     }
 
-  $('#yes').on('click', function() {
+  $('#yes').one('click', function() {
     start = true;
     //divStart.addClass('invsibleDiv');
-
+    alert('start');
     window.ondevicemotion = function( event ) {
       var temp = event.acceleration;
       withGravity = (temp.x === null);
@@ -104,6 +104,7 @@
     window.clearInterval(timerId);
 
     if (err === 0) {
+      alert('end');
       // gateWay.updateScore(score, function( response ) {
       //   response = response.toString();
       //   if (response.indexOf("Error") != -1) {
